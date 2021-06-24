@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'mycss/bookstyle.css' %}">
+    <link rel="stylesheet" href="{% static 'javascript/books.js' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <title>Login</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row justify-content-center" style="margin-top:100px;">
+            <div class="col-lg-3 col-md-3 col-sm-3 shadow bg-primary">
+                
+            </div>
+            <div class="col-lg-3 col-md-3 col-sm-3 p-5 shadow bg-white">
+                <form action="http://localhost:8000/books/login/" method="POST" novalidate>
+                    {% if login_form.non_field_errors %}
+                        {% for error in login_form.non_field_errors %}
+                            <p style="color:red;">{{error}}</p>
+                        {% endfor %}
+                    {% endif %}
+                    {% csrf_token %}
+                    {% for fm in login_form %}
+                        <p>{{fm.label_tag}}<br>{{fm}} {{fm.errors}}<p>
+                    {% endfor %}
+                    <input type="submit" value="Login" class="btn btn-primary">                     
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

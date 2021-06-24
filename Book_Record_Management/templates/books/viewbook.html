@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="{% static 'mycss/bookstyle.css' %}">
+    <link rel="stylesheet" href="{% static 'javascript/books.js' %}">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://unpkg.com/boxicons@latest/dist/boxicons.js"></script>
+    <link href='https://unpkg.com/boxicons@2.0.7/css/boxicons.min.css' rel='stylesheet'>
+    <title>Dashboard</title>
+</head>
+<body>
+    <div id="mysidenav" class="sidenav">
+        <a href="javascript:void(0)" class="closebtn" onclick="closeNav()">&times;</a>
+        <a class="nav-brand nav-link" id="logo"><i class='bx bxs-book-alt' ></i></a>
+        <ul class="nav flex-column" id="vertical-nav">
+            <li class="nav-item active">
+                <a class="nav-link" href="http://localhost:8000/books/dashboard">
+                    <i class="bx bx-grid-alt nav_icon"></i>
+                    <span>Dashboard</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8000/books/booktable/">
+                    <i class='bx bx-book-add'></i>
+                    <span>Add book</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8000/books/showresult/">
+                    <i class='bx bx-data'></i>
+                    <span>View book</span>
+                </a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8000/books/logout/">
+                    <i class='bx bx-log-out' ></i>
+                    <span>Logout</span>
+                </a>
+            </li> 
+        </ul>
+      </div>
+      <div class="jumbotron-fluid">
+        <h2 id="heading"><span style="font-size:30px;cursor:pointer;" onclick="openNav()">&#9776;</span>Book Record Management</h2>
+      </div>
+      <h4 class="p-3" style="color: rgb(73,80,87)">ViewBook</h4>
+
+      <div class="container">
+          <div class="row">
+              <div class="col">
+                  <div class="row">
+                      <div class="col-lg-4 col-sm-4 mb-4">
+                        <input type="text" placeholder="Search..." id="myinput" class="form-control bi bi-search">
+                        </div>
+                  </div>
+
+                  <div class="table-responsive p-5 shadow bg-white rounded"  data-spy="scroll" data-target="#scroll" data-offset="0" style="background-color: white;">
+                    <table class="table" id="scroll">
+                        <thead style="color: rgb(73,80,87);">
+                            <tr>
+                                <th>Title</th>
+                                <th>Author</th>
+                                <th>Publisher</th>
+                                <th>Price</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="mytable" style="color:rgb(131, 143, 156)">
+                            {% for data in result %}
+                            <tr>
+                                <td>{{data.title}}</td>
+                                <td>{{data.author}}</td>
+                                <td>{{data.publisher}}</td>
+                                <td>{{data.price}}</td>
+                                <td>
+                                    <a href="http://localhost:8000/books/edit?bookid={{data.id}}"><i class="fa fa-pencil-square btn btn-primary" aria-hidden="true"></i></a>
+                                    <a href="http://localhost:8000/books/delete?id={{data.id}}"><i class="fa fa-trash-o btn btn-danger" aria-hidden="true"></i></a>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+              </div>
+          </div>
+      </div>
+
+      <script>
+        function openNav(){
+            document.getElementById('mysidenav').style.width="250px"
+            document.getElementById('main').style.marginLeft="250px"
+        }
+        function closeNav(){
+            document.getElementById('mysidenav').style.width = "0"
+            document.getElementById('main').style.marginLeft = "0"
+        }
+
+        $(document).ready(function(){
+            $("#myinput").on("keyup", function() {
+                var value = $(this).val().toLowerCase();
+                $("#mytable tr").filter(function() {
+                    $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
+                });
+            });
+        });
+      </script>
+      
+</body>
+</html>
